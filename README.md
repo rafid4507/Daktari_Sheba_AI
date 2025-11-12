@@ -25,11 +25,11 @@ pip install -r requirements.txt
 ```
 
 
-### Creating a `.env` file in the root directory and add Pinecone & openai credentials as follows:
+### Creating a `.env` file in the root directory and add Pinecone & openrouter credentials as follows:
 
 ```ini
 PINECONE_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-OPENAI_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+OPENROUTER_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ```
 
 
