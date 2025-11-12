@@ -35,7 +35,7 @@ docsearch = PineconeVectorStore.from_existing_index(
 # Create retriever
 retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k": 3})
 
-# ✅ Use OpenRouter (instead of OpenAI)
+# Initialize Chat Model
 chatModel = ChatOpenAI(
     api_key=OPENROUTER_API_KEY,
     base_url="https://openrouter.ai/api/v1",
