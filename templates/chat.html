@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShebaBot - Medical Assistant</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="chat-container">
+    <header class="chat-header">
+      <div class="logo">
+        🩺 <span class="title">Daktari Sheba</span>
+      </div>
+      <p class="subtitle">Your Medical Assistant</p>
+    </header>
+
+    <div id="chat-box" class="chat-box"></div>
+
+    <div class="chat-input">
+      <input id="userInput" type="text" placeholder="Type your question about healthcare..." autocomplete="off" />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chat-box");
+    const input = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    // Add message to chat box
+    function addMessage(sender, text) {
+      const message = document.createElement("div");
+      message.classList.add("message", sender);
+      message.innerHTML = `<div class="message-content">${text}</div>`;
+      chatBox.appendChild(message);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Send message to backend
+    async function sendMessage() {
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      addMessage("user", msg);
+      input.value = "";
+
+      try {
+        const response = await fetch("/get", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ msg })
+        });
+        const answer = await response.text();
+        addMessage("bot", answer);
+      } catch (error) {
+        addMessage("bot", "Sorry, I couldn’t reach the server.");
+      }
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    // Greeting
+    window.onload = () => {
+      addMessage("bot", "Assalamu Alaikum! I’m ShebaBot, medical assistant from Daktari Sheba. How can I help you today?");
+    };
+  </script>
+</body>
+</html>
